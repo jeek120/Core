@@ -47,6 +47,14 @@ public class BaseController {
 		return id == null ? 0:id;
 	}
 	
+	public String getLoginName(){
+		Object o = request.getSession().getAttribute("loginName");
+		if( o == null){
+			return "";
+		}
+		return o.toString();
+	}
+	
 	public boolean isLogin(){
 		return getLoginId() == 0 ? false:true;
 	}

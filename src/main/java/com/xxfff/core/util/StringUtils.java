@@ -1,5 +1,7 @@
 package com.xxfff.core.util;
 
+import com.xxfff.core.model.CommonStatus;
+
 public class StringUtils extends org.apache.commons.lang.StringUtils {
 	public static String toFirstUpperCase(String str) {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -69,4 +71,12 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
             return "";
         }
     };
+    
+    public static String getExt(String fileName){
+    	int index = fileName.lastIndexOf(".");
+		if(index < 0){
+			return "";
+		}
+		return fileName.substring(index + 1);
+    }
 }
