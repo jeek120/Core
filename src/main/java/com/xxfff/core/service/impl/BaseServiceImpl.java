@@ -14,7 +14,6 @@ import com.xxfff.core.exception.ServiceExceptionConstant;
 import com.xxfff.core.model.BaseEntity;
 import com.xxfff.core.model.Pager;
 import com.xxfff.core.service.BaseService;
-import com.xxfff.core.util.UUIDUtils;
 
 @Service
 public abstract class BaseServiceImpl<T extends BaseEntity, DaoImpl extends BaseDao<T>>
@@ -49,7 +48,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, DaoImpl extends Base
 
 	/* --------------------- end 新增数据 ------------------------ */
 
-	/* --------------------- start 新增数据 ------------------------ */
+	/* --------------------- start  修改数据 ------------------------ */
 	public int update(Map<String, Object> params) throws DaoException,
 			ServiceException {
 		try {
@@ -66,6 +65,30 @@ public abstract class BaseServiceImpl<T extends BaseEntity, DaoImpl extends Base
 	public int update(T entity) throws DaoException, ServiceException {
 		try {
 			return getDaoImpl().update("update", entity);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServiceException(e, ServiceExceptionConstant.ANY, ServiceExceptionConstant.STR_ANY);
+		}
+	}
+	
+	public int update(List<String> ids) throws DaoException, ServiceException {
+		try {
+			return getDaoImpl().update("updateAll", ids);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServiceException(e, ServiceExceptionConstant.ANY, ServiceExceptionConstant.STR_ANY);
+		}
+	}
+	
+	public int update(String[] ids) throws DaoException, ServiceException {
+		try {
+			return getDaoImpl().delete("updateAll", ids);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw e;
@@ -103,7 +126,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, DaoImpl extends Base
 		}
 	}
 	
-	public int deleteAll(List<String> ids) throws DaoException, ServiceException {
+	public int delete(List<String> ids) throws DaoException, ServiceException {
 		try {
 			return getDaoImpl().delete("deleteAll", ids);
 		} catch (DaoException e) {
@@ -115,7 +138,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, DaoImpl extends Base
 		}
 	}
 	
-	public int deleteAll(String[] ids) throws DaoException, ServiceException {
+	public int delete(String[] ids) throws DaoException, ServiceException {
 		try {
 			return getDaoImpl().delete("deleteAll", ids);
 		} catch (DaoException e) {
@@ -305,7 +328,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, DaoImpl extends Base
 			return 0;
 		}
 		if (null == entity.getId()) {
-			entity.setId(UUIDUtils.getUUID());
+			//entity.setId(UUIDUtils.getUUID());
 			return this.save(entity);
 		} else {
 			return this.update(entity);

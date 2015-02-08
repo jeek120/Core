@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.xxfff.core.dao.BaseDao;
 import com.xxfff.core.exception.DaoException;
 import com.xxfff.core.exception.DaoExceptionConstant;
+import com.xxfff.core.exception.ServiceException;
 import com.xxfff.core.model.BaseEntity;
 import com.xxfff.core.util.UUIDUtils;
 
@@ -84,8 +85,8 @@ public class BaseDaoImpl<T extends BaseEntity> extends SqlSessionDaoSupport
 	 */
 	public int save(String sqlId, T entity) throws DaoException {
 		try {
-			if (null == entity.getId())
-				entity.setId(UUIDUtils.getUUID());
+			/*if (null == entity.getId())
+				entity.setId(UUIDUtils.getUUID());*/
 			return getSqlSession().insert(getEntityName() + "Mapper." + sqlId,
 					entity);
 		} catch (RuntimeException re) {
@@ -125,12 +126,52 @@ public class BaseDaoImpl<T extends BaseEntity> extends SqlSessionDaoSupport
 	 * 
 	 * @param sqlId
 	 * @param entity
-	 * @throws DaoException
+	 * @throws DaoException 
 	 */
-	public int update(String sqlId, T entity) throws DaoException {
+	public int update(String sqlId, T entity) throws DaoException{
 		try {
 			return this.getSqlSession().update(
 					getEntityName() + "Mapper." + sqlId, entity);
+		} catch (RuntimeException re) {
+			logger.error("delete " + getEntityName() + "Mapper." + sqlId
+					+ " failed :{}", re);
+			re.printStackTrace();
+			throw new DaoException(re, DaoExceptionConstant.ANY,DaoExceptionConstant.STR_ANY);
+		}
+	}
+	
+	/**
+	 * 根据sqlId更新多个对象
+	 * 
+	 * @param sqlId
+	 * @param ids
+	 * @return
+	 * @throws DaoException 
+	 */
+	public int update(String sqlId, List<String> ids) throws DaoException{
+		try {
+			return this.getSqlSession().update(
+					getEntityName() + "Mapper." + sqlId, ids);
+		} catch (RuntimeException re) {
+			logger.error("update " + getEntityName() + "Mapper." + sqlId
+					+ " failed :{}", re);
+			re.printStackTrace();
+			throw new DaoException(re, DaoExceptionConstant.ANY,DaoExceptionConstant.STR_ANY);
+		}
+	}
+	
+	/**
+	 * 根据sqlId更新多个对象
+	 * 
+	 * @param sqlId
+	 * @param ids
+	 * @return
+	 * @throws DaoException 
+	 */
+	public int update(String sqlId, String[] ids) throws DaoException{
+		try {
+			return this.getSqlSession().update(
+					getEntityName() + "Mapper." + sqlId, ids);
 		} catch (RuntimeException re) {
 			logger.error("update " + getEntityName() + "Mapper." + sqlId
 					+ " failed :{}", re);

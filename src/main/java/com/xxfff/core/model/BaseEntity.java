@@ -12,7 +12,7 @@ import java.util.Map;
 public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 6509066057807634977L;
 
-	private String id;
+	private Long id;
 	
 	/**
 	 * 数据状态，0---禁用(系统后台数据库不显示)  1---可以使用   2---屏蔽
@@ -22,7 +22,7 @@ public class BaseEntity implements Serializable {
 	/**
 	 * 数据的创建人
 	 */
-	private String creator;
+	private Long creator;
 	
 	/**
 	 * 创建时间
@@ -39,7 +39,7 @@ public class BaseEntity implements Serializable {
 	/**
 	 * 修改人
 	 */
-	private String operator;
+	private Long operator;
 	
 	/**
 	 * 修改时间
@@ -60,13 +60,6 @@ public class BaseEntity implements Serializable {
 	private Integer geVersion;
 	private Integer leVersion;
 	
-	/**
-	 * 网站的域名
-	 */
-	private String domain;
-	private String andLikeDomain;
-	private String startLikeDomain;
-
 	/**
 	 * 操作状态，临时状态，不存到数据库中
 	 * <p>
@@ -125,7 +118,8 @@ public class BaseEntity implements Serializable {
 		if (getVersion() != null) {
 			params.put("version", getVersion());
 		}
-		if (getDomain() != null) {
+		
+		/*if (getDomain() != null) {
 			params.put("domain", getDomain());
 		}
 		if (getAndLikeDomain() != null) {
@@ -133,7 +127,7 @@ public class BaseEntity implements Serializable {
 		}
 		if (getStartLikeDomain() != null) {
 			params.put("startLikeDomain", getStartLikeDomain());
-		}
+		}*/
 		return params;
 	}
 
@@ -161,11 +155,11 @@ public class BaseEntity implements Serializable {
 		return id.equals(other.id);
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -185,11 +179,11 @@ public class BaseEntity implements Serializable {
 		this.status = status;
 	}
 
-	public String getCreator() {
+	public Long getCreator() {
 		return creator;
 	}
 
-	public void setCreator(String creator) {
+	public void setCreator(Long creator) {
 		this.creator = creator;
 	}
 
@@ -209,11 +203,11 @@ public class BaseEntity implements Serializable {
 		this.creatIp = creatIp;
 	}
 
-	public String getOperator() {
+	public Long getOperator() {
 		return operator;
 	}
 
-	public void setOperator(String operator) {
+	public void setOperator(Long operator) {
 		this.operator = operator;
 	}
 
@@ -289,6 +283,12 @@ public class BaseEntity implements Serializable {
 		this.leVersion = leVersion;
 	}
 
+	/**
+	 * 网站的域名
+	 
+	private String domain;
+	private String andLikeDomain;
+	private String startLikeDomain;
 	public String getDomain() {
 		return domain;
 	}
@@ -311,5 +311,5 @@ public class BaseEntity implements Serializable {
 
 	public void setStartLikeDomain(String startLikeDomain) {
 		this.startLikeDomain = startLikeDomain;
-	}
+	}*/
 }

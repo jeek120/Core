@@ -25,7 +25,7 @@ public class Pager<T> {
 	public Pager(Integer pageSize, Integer totalCount,Integer currentPage) {
 				
 		if(null==pageSize){
-			pageSize = 15;
+			pageSize = 10;
 		}
 		
 		setPageSize(pageSize);

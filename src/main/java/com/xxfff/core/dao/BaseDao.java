@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.xxfff.core.exception.DaoException;
+import com.xxfff.core.exception.ServiceException;
 import com.xxfff.core.model.BaseEntity;
 
 /**
@@ -56,6 +57,26 @@ public interface BaseDao<T extends BaseEntity> {
 	 * @throws DaoException 
 	 */
 	public int update(String sqlId, T entity) throws DaoException;
+	
+	/**
+	 * 根据sqlId更新多个对象
+	 * 
+	 * @param sqlId
+	 * @param ids
+	 * @return
+	 * @throws DaoException 
+	 */
+	public int update(String sqlId, List<String> ids) throws DaoException;
+	
+	/**
+	 * 根据sqlId更新数据
+	 * 
+	 * @param sqlId
+	 * @param ids
+	 * @return
+	 * @throws DaoException 
+	 */
+	public int update(String sqlId, String[] ids) throws DaoException, ServiceException;
 
 	/*-------------------   end  更新数据  ----------------------*/
 

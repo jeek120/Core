@@ -19,6 +19,8 @@ public interface BaseService<T extends BaseEntity, DaoImpl extends BaseDao<T>> {
 	/* --------------------- start 新增数据 ------------------------ */
 	public int update(Map<String, Object> params) throws DaoException, ServiceException;
 	public int update(T entity) throws DaoException, ServiceException;
+	public int update(List<String> ids) throws DaoException, ServiceException;
+	public int update(String[] ids) throws DaoException, ServiceException;
 	/* --------------------- end 新增数据 ------------------------ */
 
 	/* --------------------- start 删除数据 ------------------------ */
@@ -26,9 +28,9 @@ public interface BaseService<T extends BaseEntity, DaoImpl extends BaseDao<T>> {
 
 	public int delete(T entity) throws DaoException, ServiceException;
 	
-	public int deleteAll(List<String> ids) throws DaoException, ServiceException;
+	public int delete(List<String> ids) throws DaoException, ServiceException;
 	
-	public int deleteAll(String[] ids) throws DaoException, ServiceException;
+	public int delete(String[] ids) throws DaoException, ServiceException;
 
 	/* --------------------- end 删除数据 ------------------------ */
 	

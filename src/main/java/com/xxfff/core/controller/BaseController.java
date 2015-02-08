@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -19,11 +20,14 @@ import com.xxfff.core.util.StringEscapeEditor;
  * 
  * 其他控制器继承此控制器获得日期字段类型转换和防止XSS攻击的功能
  * 
- * @author 孙宇
+ * @author 袁鹏
  * 
  */
 @Controller
 public class BaseController {
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
@@ -35,14 +39,19 @@ public class BaseController {
 		/**
 		 * 防止XSS攻击
 		 */
-		binder.registerCustomEditor(String.class, new StringEscapeEditor(true, false));
+		//binder.registerCustomEditor(String.class, new StringEscapeEditor(true, false));
 	}
 	
-	public String getLoginId(HttpServletRequest request){
-		return request.getParameter("loginId");
+	public Long getLoginId(){
+		Long id = (Long)request.getSession().getAttribute("loginId");
+		return id == null ? 0:id;
 	}
 	
-	public String getRemoteIpAddr(HttpServletRequest request) { 
+	public boolean isLogin(){
+		return getLoginId() == 0 ? false:true;
+	}
+	
+	public String getRemoteIpAddr() { 
 	       String ip = request.getHeader("x-forwarded-for"); 
 	       if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
 	           ip = request.getHeader("Proxy-Client-IP"); 
@@ -56,16 +65,26 @@ public class BaseController {
 	       return ip; 
 	   } 
 	
-	public void preEntity(HttpServletRequest request,BaseEntity e){
-		if(StringUtils.isEmpty(e.getId())){
-			e.setCreatIp(getRemoteIpAddr(request));
+	public void preEntity(BaseEntity e){
+		//if(StringUtils.isEmpty(e.getId())){
+		if(null == e.getId()) { 
+			e.setCreatIp(getRemoteIpAddr());
 			e.setCreatTime(new Date());
-			e.setCreator(getLoginId(request));
+			e.setCreator(Long.valueOf(getLoginId()));
 		}
-		e.setOperatIp(getRemoteIpAddr(request));
+		e.setOperatIp(getRemoteIpAddr());
 		e.setOperatTime(new Date());
-		e.setOperator(getLoginId(request));
+		e.setOperator(Long.valueOf(getLoginId()));
 	}
+	
+	public String getTheme(){
+		return request.getSession().getAttribute("theme").toString();
+	}
+	
+	public String getBasePath(){
+    	String path = request.getContextPath();  
+    	return request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    }
 
 	/**
 	 * 用户跳转JSP页面
